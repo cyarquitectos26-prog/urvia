@@ -1,3 +1,4 @@
+import { propertyHref } from "@/lib/property-link";
 import { agents, districts, posts, properties, videos } from "@/lib/data/mock";
 import { money, propertyMatch } from "@/lib/domain";
 import type { BillboardVariant, Promotion, Property, SearchIntent } from "@/types";
@@ -64,7 +65,7 @@ export const cityAdvertisingInventory: { product: CityAdProduct; screenIds: stri
 ];
 
 function propertyStory(property: Property, kicker = "DESCUBRE UN LUGAR"): CityStory {
-  return { id: `story-${property.id}`, type: property.type === "Proyecto" ? "project" : "property", classification: "algorithmic", kicker, title: property.title, subtitle: `${property.location.district} · ${property.area} m²`, image: property.id === "prop-01" ? "/images/la-molina-hero.webp" : property.media[0]?.url || "/images/la-molina-hero.webp", price: money(property.price, property.currency), href: `/property/${property.slug}`, propertyId: property.id, searchText: `${property.type} ${property.location.district} ${property.amenities.join(" ")}` };
+  return { id: `story-${property.id}`, type: property.type === "Proyecto" ? "project" : "property", classification: "algorithmic", kicker, title: property.title, subtitle: `${property.location.district} · ${property.area} m²`, image: property.id === "prop-01" ? "/images/la-molina-hero.webp" : property.media[0]?.url || "/images/la-molina-hero.webp", price: money(property.price, property.currency), href: propertyHref(property), propertyId: property.id, searchText: `${property.type} ${property.location.district} ${property.amenities.join(" ")}` };
 }
 
 function seedStories(sorted: Property[]): CityStory[] {

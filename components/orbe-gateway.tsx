@@ -1,4 +1,5 @@
 "use client";
+import { propertyHref } from "@/lib/property-link";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUpRight, Layers, MapPin, Pause, Play, Plus, X } from "lucide-react";
@@ -54,7 +55,7 @@ export function OrbeGateway() {
       <span className="gateway-kicker">UN NUEVO UNIVERSO INMOBILIARIO</span><h1>Tu próxima propiedad<br/>no se busca.<br/><em>Se descubre.</em></h1>
       <Link href="/city" className="gateway-cta"><span><ArrowRight size={20}/></span>Explorar ORBE City<ArrowUpRight size={18}/></Link>
     </motion.div>
-    <Link className="gateway-property" href={`/property/${featured.slug}`}><img src={featured.media[0].url} alt=""/><span><small><MapPin size={12}/> {featured.location.district}</small><strong>{money(featured.price,featured.currency)}</strong><em>Descubrir propiedad <ArrowUpRight size={12}/></em></span></Link>
+    <Link className="gateway-property" href={propertyHref(featured)}><img src={featured.media[0].url} alt=""/><span><small><MapPin size={12}/> {featured.location.district}</small><strong>{money(featured.price,featured.currency)}</strong><em>Descubrir propiedad <ArrowUpRight size={12}/></em></span></Link>
     <div className="gateway-caption"><i/> Lima, Perú · Explora propiedades en el feed</div>
   </section>;
 }

@@ -118,6 +118,15 @@ Informe completo y evidencia: `outputs/orbe-layout-audit/audit.md`. Captura de l
 Alcance: revisión visual y de los estados enumerados en el navegador integrado. No se comprobó cada variante dinámica por separado, navegadores adicionales ni servicios externos. Esta revisión no es una certificación de accesibilidad.
 # Búsqueda por mapa — 11 de octubre de 2026
 
+## Preparación para GitHub Pages
+
+- Exportación estática: 65 páginas, todos los recursos públicos y `.nojekyll`; comprobada con un servidor de archivos en `http://localhost:4173/` sin usar el servidor de Next.js.
+- Inicio: imágenes cargadas y video 1920 × 1080 reproduciéndose, sin endpoint `/_next/image`. Navegación de Inicio a Mapa y de una vista previa a la ficha precargada funciona.
+- Mapa: Miraflores devuelve tres propiedades; IDs de lista y pines coinciden, calles cargadas y vista previa correcta.
+- Publicación: formulario completado con un registro de prueba únicamente en el origen local de QA; la ficha nueva abre la ruta estática con `slug` y conserva contenido al recargar.
+- City: vista 3D y ajustes cargados con imágenes; se conserva la separación del shell con rutas que terminan en `/`. Three.js emite una advertencia de deprecación de su reloj desde la dependencia; no impide la escena.
+- Build y ESLint pasan. El estado local de QA no forma parte de los archivos desplegados.
+
 ## Adaptación a la referencia oscura
 
 - Fondo `#14202a`, textos de distrito `#aabecb`, marcadores `#d3a676` con halo, controles oscuros rectangulares y atribución visible. Las calles siguen siendo geográficas; su densidad y los precios añaden información respecto del mapa compacto de la referencia.

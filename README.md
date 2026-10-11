@@ -51,6 +51,14 @@ Abre [http://localhost:3000](http://localhost:3000). Para validar: `npm run type
 | `/auth/login`, `/auth/register`, `/auth/forgot-password` | Acceso demo |
 | `/onboarding` | Preferencias para personalizar compatibilidad |
 
+## Exportar para GitHub Pages
+
+`npm run build:pages` genera la web estática en `out/`, con 65 páginas, imágenes sin un servidor de optimización, enlaces a directorios y `.nojekyll`. La exportación está preparada para el dominio raíz `https://cyarquitectos26-prog.github.io/`; `ORBE_PAGES_URL` permite ajustar los metadatos a otro dominio raíz. `npm run dev` conserva el modo de desarrollo habitual.
+
+Para publicar, subir el contenido de `out/` al repositorio de la web y seleccionar su rama `main`, carpeta raíz, como fuente de GitHub Pages. El repositorio del código fuente y el de archivos compilados pueden mantenerse separados. No se exportan los datos almacenados en el navegador local.
+
+Las propiedades precargadas mantienen sus rutas. En la versión estática, las publicaciones creadas después del despliegue abren `/property/published/?slug=…`, una página que lee el estado local del navegador. Así se pueden abrir y recargar fichas nuevas sin necesitar un servidor. Los guardados, mensajes, visitas, campañas y publicaciones continúan siendo funciones demo almacenadas por navegador; no son un backend compartido.
+
 ## Arquitectura
 
 - `app/`: rutas App Router, metadata y estilos.
