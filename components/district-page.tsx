@@ -1,0 +1,7 @@
+"use client";
+import Link from "next/link";
+import { ArrowRight, TrendingUp } from "lucide-react";
+import type { District, Property } from "@/types";
+import { PropertyCard } from "@/components/property";
+import { useApp } from "@/components/app-state";
+export function DistrictPageClient({ district, properties }: { district: District; properties: Property[] }) { const { follows, toggleFollow } = useApp(); return <div className="district-page page-shell"><div className="district-hero" style={{ backgroundImage: `linear-gradient(90deg, rgba(5,5,5,.94), rgba(5,5,5,.08)), url('${district.image}')` }}><div><span className="eyebrow">EXPLORA UN BARRIO</span><h1>{district.name}</h1><p>Una forma distinta de vivir Lima. Descubre sus espacios, su energía y sus próximas oportunidades.</p><button className="button primary" onClick={() => toggleFollow(district.id)}>{follows.includes(district.id) ? "Siguiendo distrito" : `Seguir ${district.name}`}</button></div></div><div className="district-stats"><span><strong>{district.inventory}</strong> propiedades</span><span><strong>{district.searches}</strong> búsquedas recientes</span><span><strong><TrendingUp size={18} /> +{district.priceChange}%</strong> interés del mercado</span></div><div className="section-heading"><h2>Descubre {district.name}</h2><Link href={`/explore?district=${encodeURIComponent(district.name)}`}>Ver todas <ArrowRight size={16} /></Link></div><div className="property-grid">{properties.map(p => <PropertyCard key={p.id} property={p} />)}</div></div>; }

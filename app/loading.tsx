@@ -1,0 +1,1 @@
+export default function Loading() { return <div className="page-shell"><div className="loading-heading" /><div className="loading-layout"><div className="loading-media" /><div className="loading-side"><div /><div /><div /></div></div></div>; }
