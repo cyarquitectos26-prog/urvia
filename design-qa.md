@@ -120,6 +120,10 @@ Alcance: revisión visual y de los estados enumerados en el navegador integrado.
 
 ## Preparación para GitHub Pages
 
+- Publicación completada en `https://cyarquitectos26-prog.github.io/`, repositorio público de archivos compilados `cyarquitectos26-prog.github.io`, commit `7c63ce8`. Trabajo `pages-build-deployment` #1 completado correctamente en 29 segundos, desde `main` y la carpeta raíz, con HTTPS obligatorio.
+- Comprobación del sitio público: inicio con video 1920 × 1080 reproduciéndose, imágenes cargadas; Miraflores devuelve tres fichas y sus mismos tres IDs en el mapa; búsqueda por zona activa el filtro; texto inexistente produce cero pines; limpiar restaura las 30 propiedades demo; una ficha precargada abre y recarga directamente sin errores de consola.
+- Las capturas `pages-live-home.png` y `pages-live-map.png` están en la carpeta temporal `orbe-pages-qa`, fuera del repositorio.
+
 - Exportación estática: 65 páginas, todos los recursos públicos y `.nojekyll`; comprobada con un servidor de archivos en `http://localhost:4173/` sin usar el servidor de Next.js.
 - Inicio: imágenes cargadas y video 1920 × 1080 reproduciéndose, sin endpoint `/_next/image`. Navegación de Inicio a Mapa y de una vista previa a la ficha precargada funciona.
 - Mapa: Miraflores devuelve tres propiedades; IDs de lista y pines coinciden, calles cargadas y vista previa correcta.
