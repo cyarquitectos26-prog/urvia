@@ -118,6 +118,14 @@ Informe completo y evidencia: `outputs/orbe-layout-audit/audit.md`. Captura de l
 Alcance: revisión visual y de los estados enumerados en el navegador integrado. No se comprobó cada variante dinámica por separado, navegadores adicionales ni servicios externos. Esta revisión no es una certificación de accesibilidad.
 # Búsqueda por mapa — 11 de octubre de 2026
 
+## Adaptación a la referencia oscura
+
+- Fondo `#14202a`, textos de distrito `#aabecb`, marcadores `#d3a676` con halo, controles oscuros rectangulares y atribución visible. Las calles siguen siendo geográficas; su densidad y los precios añaden información respecto del mapa compacto de la referencia.
+- Se mantienen los filtros, agrupaciones, todas las publicaciones locales, selección, fichas, teclado y búsqueda por área. No cambia el proveedor de teselas ni el almacenamiento local.
+- Revisión en el navegador integrado mediante CUA: 1280 × 1000 y 390 × 844; sin desbordamiento horizontal, página no vacía, sin overlay del framework ni errores o advertencias de consola.
+- Flujo comprobado: buscar Miraflores → ampliar su agrupación → seleccionar pin → vista previa; buscar área visible → lista y pines sincronizados; búsqueda inexistente → cero resultados y cero pines; limpiar → 31 propiedades (30 precargadas y una publicación local existente). En móvil, Espacio sobre un pin abre la ficha y los controles se mantienen accesibles junto a la vista previa.
+- Compilación de 64 páginas, TypeScript y ESLint sin errores. Capturas y siete estados de comprobación se guardan fuera del repositorio, en la carpeta temporal `orbe-map-style-qa`.
+
 - `/map`: Leaflet y calles reales; coordenadas demo referenciales, atribución visible y carga separada del resto de páginas.
 - 31 propiedades locales representadas sin truncamiento; los IDs de las agrupaciones coinciden con los de la lista.
 - Casa en La Molina hasta US$400000: 2 resultados; Miraflores en alquiler: 1; terreno en Pachacamac hasta US$200000 sin tildes: 2; texto «malecon»: 1.

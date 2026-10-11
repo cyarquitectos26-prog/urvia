@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import { LocateFixed, Minus, Plus, Search, X } from "lucide-react";
 import { money } from "@/lib/domain";
+import { districts, districtCenter } from "@/lib/data/mock";
 import { PropertyCard } from "@/components/property";
 import type { Property } from "@/types";
 import type { PropertyMapProps } from "./property-map";
@@ -36,6 +37,31 @@ export default function MapCanvas({ properties, selected, onSelect, onSearchArea
 
   useEffect(() => { if (map && !keepView) frame(map, properties); }, [map, properties, keepView]);
   useEffect(() => {
+    if (!map) return;
+    const pane = map.createPane("districtLabels");
+    pane.style.zIndex = "350";
+    pane.style.pointerEvents = "none";
+    const labels = L.layerGroup().addTo(map);
+    function drawLabels() {
+      if (!map) return;
+      labels.clearLayers();
+      if (map.getZoom() > 15) return;
+      const placed: L.Point[] = [];
+      for (const district of districts) {
+        const position = districtCenter(district.name);
+        const point = map.latLngToContainerPoint(position);
+        if (placed.some(other => Math.abs(other.x - point.x) < 116 && Math.abs(other.y - point.y) < 32)) continue;
+        placed.push(point);
+        const label = document.createElement("span");
+        label.textContent = district.name;
+        L.marker(position, { pane: "districtLabels", interactive: false, keyboard: false, icon: L.divIcon({ html: label, className: "orbe-map-district", iconSize: [116, 20], iconAnchor: [58, 45] }) }).addTo(labels);
+      }
+    }
+    drawLabels();
+    map.on("moveend", drawLabels);
+    return () => { map.off("moveend", drawLabels); labels.remove(); pane.remove(); };
+  }, [map]);
+  useEffect(() => {
     if (map && selected) map.setView([selected.location.lat, selected.location.lng], Math.max(map.getZoom(), 15), { animate: !reducedMotion() });
   }, [map, selected]);
 
@@ -58,9 +84,19 @@ export default function MapCanvas({ properties, selected, onSelect, onSearchArea
         const clustered = group.members.length > 1;
         const label = clustered ? `${group.members.length} propiedades` : `${p.title} · ${p.location.district} · ${money(p.price, p.currency)}`;
         const content = document.createElement("span");
-        content.textContent = clustered ? String(group.members.length) : money(p.price, p.currency);
+        if (clustered) content.textContent = String(group.members.length);
+        else {
+          const pin = document.createElement("span");
+          pin.className = "orbe-map-pin";
+          pin.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>';
+          const price = document.createElement("span");
+          price.className = "orbe-map-price";
+          price.textContent = money(p.price, p.currency);
+          content.className = "orbe-map-marker-content";
+          content.append(pin, price);
+        }
         const center: L.LatLngExpression = clustered ? [group.members.reduce((sum, item) => sum + item.location.lat, 0) / group.members.length, group.members.reduce((sum, item) => sum + item.location.lng, 0) / group.members.length] : [p.location.lat, p.location.lng];
-        const marker = L.marker(center, { title: label, keyboard: true, riseOnHover: true, zIndexOffset: selected?.id === p.id ? 1000 : 0, icon: L.divIcon({ html: content, className: `orbe-map-marker ${clustered ? "cluster" : "price"} ${selected?.id === p.id ? "selected" : ""}`, iconSize: clustered ? [42, 42] : [104, 34], iconAnchor: clustered ? [21, 21] : [52, 17] }) }).addTo(layer);
+        const marker = L.marker(center, { title: label, keyboard: true, riseOnHover: true, zIndexOffset: selected?.id === p.id ? 1000 : 0, icon: L.divIcon({ html: content, className: `orbe-map-marker ${clustered ? "cluster" : "price"} ${selected?.id === p.id ? "selected" : ""}`, iconSize: clustered ? [44, 44] : [104, 70], iconAnchor: clustered ? [22, 22] : [52, 20] }) }).addTo(layer);
         const element = marker.getElement();
         element?.setAttribute("aria-label", clustered ? `Ver ${label} en el mapa` : label);
         element?.setAttribute("data-property-ids", group.members.map(item => item.id).join(","));
