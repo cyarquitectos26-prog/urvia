@@ -9,7 +9,7 @@ import { notifications, properties } from "@/lib/data/mock";
 import { money, parseSearch, propertyMatch } from "@/lib/domain";
 import { useApp, allProperties } from "@/components/app-state";
 
-const nav = [{ href: "/", label: "Inicio" }, { href: "/explore", label: "Explorar" }, { href: "/city", label: "ORBE City" }, { href: "/explore?type=Proyecto", label: "Proyectos" }, { href: "/agents", label: "Agentes" }];
+const nav = [{ href: "/", label: "Inicio" }, { href: "/explore", label: "Explorar" }, { href: "/city", label: "ORBE City" }, { href: "/videos", label: "Para ti" }, { href: "/agents", label: "Agentes" }];
 const secondary = [{href:"/explore?operation=buy",label:"Comprar"},{href:"/explore?operation=rent",label:"Alquilar"},{href:"/map",label:"Mapa"},{href:"/videos",label:"Videos"},{href:"/collections",label:"Guardados"},{href:"/messages",label:"Mensajes"},{href:"/dashboard",label:"Mi panel"},{href:"/onboarding",label:"Personalizar feed"},{href:"/publish",label:"Publicar"}];
 export function BrandLogo({light=false}:{light?:boolean}) { return <Link href="/" className="orbe-logo" aria-label="ORBE · Ir al inicio"><img src={`/brand/orbe-horizontal-${light ? "light" : "dark"}.svg`} alt="ORBE" width={144} height={48}/></Link>; }
 export function SmartSearchBar({ compact = false }: { compact?: boolean }) {

@@ -6,7 +6,7 @@ Primera versión navegable de un marketplace de descubrimiento inmobiliario. El 
 
 ## Actualización visual ORBE
 
-La renovación aplica la identidad aprobada de ORBE y la composición de Axle: tres paneles laterales, navegación en píldoras, un fondo urbano de Lima y superficies de vidrio. El feed previo continúa debajo de la nueva vista inicial. Las rutas, formularios, controles de City, datos y persistencia existentes se conservan. Proyectos enlaza al filtro de proyectos existente en Explorar.
+La renovación aplica la identidad aprobada de ORBE y la composición de Axle: tres paneles laterales, navegación en píldoras, un fondo urbano de Lima y superficies de vidrio. El feed previo continúa debajo de la nueva vista inicial. Las rutas, formularios, controles de City, datos y persistencia existentes se conservan. Para ti enlaza a la sección de videos en `/videos`.
 
 El logo se trazó desde la imagen suministrada, sin cambiar su geometría. `public/brand/` contiene el original y las variantes SVG principal, horizontal, clara, oscura, monocroma e icono. Colores: azul petróleo `#193247`, champán `#C5A477`/`#D3A676`, marfil `#F7F5F2` y grafito `#101318`. Motion anima la entrada y el menú; se respeta la preferencia de movimiento reducido. El inicio usa video real de Lima; ORBE City conserva su escena 3D interactiva.
 

@@ -23,7 +23,7 @@ Comparación con el ZIP anterior: `components/app-state.tsx`, `lib/domain.ts`, `
 | Superficie | Referencia | Implementación y decisión |
 | --- | --- | --- |
 | Panel lateral | Tres bloques apilados, oscuros/claro/oscuro | Tres paneles; ancho de 145 px a 885 px de viewport. El contador y la afinidad usan los datos existentes. |
-| Navegación | Píldoras con borde fino y selección oscura | Inicio, Explorar, ORBE City, Proyectos y Agentes. El menú conserva Comprar, Alquilar, Mapa, Videos, Guardados, Mensajes, Panel, Preferencias y Publicar. |
+| Navegación | Píldoras con borde fino y selección oscura | Inicio, Explorar, ORBE City, Para ti y Agentes. Para ti abre Videos. El menú conserva Comprar, Alquilar, Mapa, Videos, Guardados, Mensajes, Panel, Preferencias y Publicar. |
 | Marco principal | Gran panel de ciudad con esquinas de 26 px | Escena original de Lima en un marco de 25–28 px. Ocupa la primera altura visible; el feed se encuentra al desplazarse. |
 | Jerarquía | Titular y acción en la parte inferior izquierda | Se conserva el titular inmobiliario anterior. CTA real a City, con vidrio translúcido y acento champán. |
 | Controles flotantes | Botones de + y capas arriba a la derecha | + abre Publicar; capas muestra accesos a Mapa, City y el filtro de proyectos existente. |
@@ -117,6 +117,12 @@ Informe completo y evidencia: `outputs/orbe-layout-audit/audit.md`. Captura de l
 
 Alcance: revisión visual y de los estados enumerados en el navegador integrado. No se comprobó cada variante dinámica por separado, navegadores adicionales ni servicios externos. Esta revisión no es una certificación de accesibilidad.
 # Búsqueda por mapa — 11 de octubre de 2026
+
+## Acceso a videos: Para ti
+
+- El acceso Proyectos de la navegación principal pasa a Para ti, con destino `/videos`. El menú móvil usa el mismo destino y la selección activa corresponde a la sección de videos.
+- Comprobación en navegador integrado a 1280 × 720 y 390 × 844: Inicio → Para ti → Historias de la ciudad; el menú móvil cierra al navegar. Sin errores de consola ni desbordamiento horizontal en la comprobación móvil.
+- Exportación de 65 páginas y ESLint del componente sin errores. El cambio enlaza a la experiencia de videos existente.
 
 ## Preparación para GitHub Pages
 
