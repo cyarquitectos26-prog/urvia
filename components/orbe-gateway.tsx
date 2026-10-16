@@ -42,12 +42,13 @@ export function OrbeGateway() {
   },[wantsPlayback]);
 
   const playbackLabel=playing ? "Pausar video de fondo" : "Reproducir video de fondo";
-  return <section ref={gatewayRef} className="orbe-gateway" aria-label="Descubre tu universo inmobiliario">
+  return <>
+    <div className="gateway-search-sticky"><div className="gateway-search"><SmartSearchBar/></div></div>
+    <section ref={gatewayRef} className="orbe-gateway" aria-label="Descubre tu universo inmobiliario">
     <video ref={videoRef} className="gateway-scene" src="/videos/orbe-lima-background.mp4?v=5-clips" poster="/images/orbe-lima-poster.webp" width={1920} height={1080} muted loop playsInline preload="none" aria-hidden="true" tabIndex={-1} disablePictureInPicture onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)} onError={()=>setPlaying(false)}>
       Tu navegador no puede reproducir el fondo de Lima.
     </video>
     <div className="gateway-shade"/>
-    <div className="gateway-search"><SmartSearchBar/></div>
     <div className="gateway-tools"><Link href="/publish" aria-label="Publicar propiedad" className="gateway-plus"><Plus size={21}/></Link><button onClick={()=>setLayers(!layers)} aria-label="Explorar capas de la ciudad" aria-expanded={layers}><Layers size={19}/></button><button onClick={()=>setPlayRequested(!playing)} aria-label={playbackLabel} title={playbackLabel}>{playing ? <Pause size={16}/> : <Play size={16}/>}</button></div>
     {layers && <div className="gateway-layers"><div><strong>Tu ciudad, a tu manera</strong><button onClick={()=>setLayers(false)} aria-label="Cerrar capas"><X size={16}/></button></div><Link href="/map">Propiedades en el mapa <MapPin size={16}/></Link><Link href="/city">Recorrer ORBE City <ArrowUpRight size={16}/></Link><Link href="/explore?type=Proyecto">Nuevos proyectos <ArrowUpRight size={16}/></Link></div>}
     <span className="gateway-coordinate">12° 05′ S / 77° 02′ O <i/> LIMA, PERÚ</span>
@@ -57,5 +58,6 @@ export function OrbeGateway() {
     </motion.div>
     <Link className="gateway-property" href={propertyHref(featured)}><img src={featured.media[0].url} alt=""/><span><small><MapPin size={12}/> {featured.location.district}</small><strong>{money(featured.price,featured.currency)}</strong><em>Descubrir propiedad <ArrowUpRight size={12}/></em></span></Link>
     <div className="gateway-caption"><i/> Lima, Perú · Explora propiedades en el feed</div>
-  </section>;
+    </section>
+  </>;
 }

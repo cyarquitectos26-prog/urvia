@@ -2,6 +2,13 @@
 
 final result: passed
 
+## Buscador del inicio al desplazarse
+
+- La misma barra de búsqueda permanece anclada al recorrer todo el inicio, fuera del recorte del video. Se usa CSS sticky sin eventos de scroll ni copias del buscador.
+- Comprobado en 1280 × 720, 820 × 900 y 390 × 844: margen superior de 16 px en escritorio y 12 px en tableta/móvil al bajar; sin desbordamiento horizontal. El diálogo queda centrado dentro de la ventana incluso con el video fuera de vista.
+- Desde la barra anclada, buscar «Casa en La Molina por menos de US$400,000» abre Explorar con la consulta conservada y una propiedad coincidente. La barra del inicio desaparece al entrar en otra página. Consola sin errores ni advertencias.
+- Exportación estática de 65 páginas y TypeScript correctos. ESLint del componente sin errores; conserva la advertencia existente sobre la imagen de la propiedad destacada. Capturas locales en la carpeta temporal `orbe-sticky-search-qa`.
+
 ## Alcance
 
 Renovación de identidad, colores, composición, tipografía y superficies sobre la app existente, conforme a la aclaración del usuario. El feed previo continúa debajo del nuevo inicio. Las 19 rutas de página existentes están presentes y la compilación genera 64 páginas estáticas. Se conservan el estado local, las publicaciones previas, los guardados, las colecciones, los mensajes, las visitas, el inventario y los controles de City.

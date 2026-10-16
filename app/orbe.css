@@ -22,6 +22,14 @@ body{font-family:inherit;background:#101318}button,a,input,select,textarea{-webk
 @media(min-width:901px){.gateway-search{left:0;right:0;margin-inline:auto;transform:none}}
 @media(min-width:701px) and (max-width:900px){.gateway-search{left:9%;right:auto;margin:0;transform:none}}
 
+/* Keep the home search above the full feed, outside the clipped hero. */
+.gateway-search-sticky{position:sticky;top:-12px;height:0;z-index:45;pointer-events:none}
+.gateway-search-sticky .gateway-search{pointer-events:auto}
+.gateway-search-sticky .global-search{background:#193247d9;box-shadow:0 8px 28px #08172245}
+.is-home .mobile-search{display:none}
+@media(min-width:701px) and (max-width:900px){.gateway-search-sticky{top:-10px}}
+@media(max-width:700px){.gateway-search-sticky{top:-8px;margin-inline:10px}}
+
 /* Layout audit: keep content inside the rounded cards at every breakpoint. */
 html{color-scheme:dark}
 input::placeholder,textarea::placeholder{color:#b6bdc4;opacity:1}
