@@ -54,7 +54,7 @@ export default function MapCanvas({ properties, selected, onSelect, onSearchArea
         placed.push(point);
         const label = document.createElement("span");
         label.textContent = district.name;
-        L.marker(position, { pane: "districtLabels", interactive: false, keyboard: false, icon: L.divIcon({ html: label, className: "orbe-map-district", iconSize: [116, 20], iconAnchor: [58, 45] }) }).addTo(labels);
+        L.marker(position, { pane: "districtLabels", interactive: false, keyboard: false, icon: L.divIcon({ html: label, className: "urvia-map-district", iconSize: [116, 20], iconAnchor: [58, 45] }) }).addTo(labels);
       }
     }
     drawLabels();
@@ -87,16 +87,16 @@ export default function MapCanvas({ properties, selected, onSelect, onSearchArea
         if (clustered) content.textContent = String(group.members.length);
         else {
           const pin = document.createElement("span");
-          pin.className = "orbe-map-pin";
+          pin.className = "urvia-map-pin";
           pin.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>';
           const price = document.createElement("span");
-          price.className = "orbe-map-price";
+          price.className = "urvia-map-price";
           price.textContent = money(p.price, p.currency);
-          content.className = "orbe-map-marker-content";
+          content.className = "urvia-map-marker-content";
           content.append(pin, price);
         }
         const center: L.LatLngExpression = clustered ? [group.members.reduce((sum, item) => sum + item.location.lat, 0) / group.members.length, group.members.reduce((sum, item) => sum + item.location.lng, 0) / group.members.length] : [p.location.lat, p.location.lng];
-        const marker = L.marker(center, { title: label, keyboard: true, riseOnHover: true, zIndexOffset: selected?.id === p.id ? 1000 : 0, icon: L.divIcon({ html: content, className: `orbe-map-marker ${clustered ? "cluster" : "price"} ${selected?.id === p.id ? "selected" : ""}`, iconSize: clustered ? [44, 44] : [104, 70], iconAnchor: clustered ? [22, 22] : [52, 20] }) }).addTo(layer);
+        const marker = L.marker(center, { title: label, keyboard: true, riseOnHover: true, zIndexOffset: selected?.id === p.id ? 1000 : 0, icon: L.divIcon({ html: content, className: `urvia-map-marker ${clustered ? "cluster" : "price"} ${selected?.id === p.id ? "selected" : ""}`, iconSize: clustered ? [44, 44] : [104, 70], iconAnchor: clustered ? [22, 22] : [52, 20] }) }).addTo(layer);
         const element = marker.getElement();
         element?.setAttribute("aria-label", clustered ? `Ver ${label} en el mapa` : label);
         element?.setAttribute("data-property-ids", group.members.map(item => item.id).join(","));
@@ -119,7 +119,7 @@ export default function MapCanvas({ properties, selected, onSelect, onSearchArea
               button.onclick = () => { map.closePopup(); onSelect(item.id); };
               choices.append(button);
             }
-            L.popup({ className: "orbe-cluster-popup" }).setLatLng(center).setContent(choices).openOn(map);
+            L.popup({ className: "urvia-cluster-popup" }).setLatLng(center).setContent(choices).openOn(map);
           } else onSelect(p.id);
         });
       }

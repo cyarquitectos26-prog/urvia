@@ -1,3 +1,4 @@
+import { assetPath } from "@/lib/paths";
 import type { Agent, Billboard, Campaign, Collection, Conversation, District, Message, Notification, Post, Promotion, Property, PropertyType, VideoPost } from "@/types";
 
 export const agents: Agent[] = [
@@ -10,7 +11,7 @@ export const agents: Agent[] = [
 
 export const districts: District[] = [
   ["La Molina", 1240, 184, 3.2, 1], ["Miraflores", 980, 246, 4.2, 2], ["San Isidro", 870, 210, 2.6, 3], ["Surco", 743, 192, 3.8, 4], ["Barranco", 712, 86, 5.1, 5], ["San Borja", 680, 131, 2.9, 6], ["Pachacámac", 592, 75, 6.4, 7], ["Cieneguilla", 488, 62, 4.7, 8], ["Magdalena", 451, 110, 2.2, 3], ["Jesús María", 423, 96, 2.5, 4], ["Lince", 390, 79, 1.8, 5]
-].map(([name, searches, inventory, priceChange, image]) => ({ id: String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-"), name: String(name), slug: String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-"), searches: Number(searches), inventory: Number(inventory), priceChange: Number(priceChange), image: `/images/property-${image}.jpg` }));
+].map(([name, searches, inventory, priceChange, image]) => ({ id: String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-"), name: String(name), slug: String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-"), searches: Number(searches), inventory: Number(inventory), priceChange: Number(priceChange), image: assetPath(`/images/property-${image}.jpg`) }));
 
 type Seed = [string, string, PropertyType, number, "USD" | "PEN", number, number, number, number, number, "buy" | "rent"];
 const seeds: Seed[] = [
@@ -51,12 +52,12 @@ const slugify = (value: string) => value.toLowerCase().normalize("NFD").replace(
 export const properties: Property[] = seeds.map(([title, district, type, price, currency, area, bedrooms, bathrooms, parking, image, operation], index) => {
   const [lat, lng] = coords[district];
   const id = `prop-${String(index + 1).padStart(2, "0")}`;
-  const firstImage = index === 0 ? "/images/la-molina-hero.png" : `/images/property-${image + 1}.jpg`;
+  const firstImage = index === 0 ? assetPath("/images/la-molina-hero.png") : assetPath(`/images/property-${image + 1}.jpg`);
   return {
     id, slug: `${slugify(title)}-${index + 1}`, title, description: `${title} en ${district}. Un espacio cuidadosamente seleccionado para vivir Lima a tu manera. Distribución funcional, luz natural y acceso cómodo a los principales servicios de la zona. Agenda una visita y descubre todos sus detalles.`, operation, type, price, currency, area, bedrooms, bathrooms, parking,
     location: { district, city: "Lima", address: `${district}, Lima`, lat: lat + (index % 4) * 0.002, lng: lng + (index % 3) * 0.002 },
     amenities: type === "Terreno" ? ["Vista al valle", "Acceso vehicular", "Servicios cercanos"] : ["Terraza", "Seguridad", ...(index % 3 === 0 ? ["Piscina", "Jardín"] : []), ...(index % 2 === 0 ? ["Pet friendly"] : [])],
-    media: [{ id: `${id}-1`, url: firstImage, type: "image", alt: `${title} en ${district}` }, { id: `${id}-2`, url: `/images/property-${(image + 2) % 8 + 1}.jpg`, type: "image", alt: `Ambiente de ${title}` }, { id: `${id}-3`, url: `/images/property-${(image + 4) % 8 + 1}.jpg`, type: "image", alt: `Detalle de ${title}` }],
+    media: [{ id: `${id}-1`, url: firstImage, type: "image", alt: `${title} en ${district}` }, { id: `${id}-2`, url: assetPath(`/images/property-${(image + 2) % 8 + 1}.jpg`), type: "image", alt: `Ambiente de ${title}` }, { id: `${id}-3`, url: assetPath(`/images/property-${(image + 4) % 8 + 1}.jpg`), type: "image", alt: `Detalle de ${title}` }],
     agentId: agents[index % agents.length].id, status: "available", verified: index === 0 || index % 5 !== 0, featured: index < 3, publishedAt: "2026-09-18", updatedAt: "2026-10-03",
     priceHistory: [{ date: "Jun", price: Math.round(price * 1.09), currency }, { date: "Ago", price: Math.round(price * 1.05), currency }, { date: "Oct", price, currency }],
     analytics: { views: 125 + index * 33, saves: 42 + index * 7, shares: 12 + index * 3, chats: 8 + index, visits: 3 + index % 10 },
@@ -65,13 +66,13 @@ export const properties: Property[] = seeds.map(([title, district, type, price, 
 });
 
 export const posts: Post[] = [
-  { id: "post-1", authorId: "mariana", body: "5 detalles de diseño que hacen que una casa se sienta realmente tuya.", image: "/images/property-4.jpg", likes: 342, comments: 28, createdAt: "2026-10-04" },
-  { id: "post-2", authorId: "diego", body: "Barranco por dentro: espacios que conectan con la ciudad.", image: "/images/property-5.jpg", likes: 218, comments: 19, createdAt: "2026-10-03" }
+  { id: "post-1", authorId: "mariana", body: "5 detalles de diseño que hacen que una casa se sienta realmente tuya.", image: assetPath("/images/property-4.jpg"), likes: 342, comments: 28, createdAt: "2026-10-04" },
+  { id: "post-2", authorId: "diego", body: "Barranco por dentro: espacios que conectan con la ciudad.", image: assetPath("/images/property-5.jpg"), likes: 218, comments: 19, createdAt: "2026-10-03" }
 ];
 export const videos: VideoPost[] = [
-  { id: "video-1", authorId: "mariana", propertyId: "prop-01", title: "La Molina en 45 segundos", cover: "/images/la-molina-hero.png", likes: 1100, comments: 94, duration: "0:45" },
-  { id: "video-2", authorId: "diego", propertyId: "prop-05", title: "Un loft con alma en Barranco", cover: "/images/property-5.jpg", likes: 846, comments: 61, duration: "0:32" },
-  { id: "video-3", authorId: "valeria", propertyId: "prop-03", title: "Vista abierta en San Isidro", cover: "/images/property-3.jpg", likes: 670, comments: 38, duration: "0:38" }
+  { id: "video-1", authorId: "mariana", propertyId: "prop-01", title: "La Molina en 45 segundos", cover: assetPath("/images/la-molina-hero.png"), likes: 1100, comments: 94, duration: "0:45" },
+  { id: "video-2", authorId: "diego", propertyId: "prop-05", title: "Un loft con alma en Barranco", cover: assetPath("/images/property-5.jpg"), likes: 846, comments: 61, duration: "0:32" },
+  { id: "video-3", authorId: "valeria", propertyId: "prop-03", title: "Vista abierta en San Isidro", cover: assetPath("/images/property-3.jpg"), likes: 670, comments: 38, duration: "0:38" }
 ];
 export const initialCollections: Collection[] = [
   { id: "col-favorites", name: "Casas favoritas", ownerId: "demo", items: [{ propertyId: "prop-01", addedAt: "2026-10-04" }, { propertyId: "prop-04", addedAt: "2026-10-03" }] },
@@ -94,12 +95,12 @@ export const notifications: Notification[] = [
   { id: "n3", title: "Mariana respondió", body: "Tienes un mensaje sobre tu próxima visita.", href: "/messages", read: true, createdAt: "2026-10-04" }
 ];
 export const billboards: Billboard[] = [
-  { id: "bb-1", variant: "property", classification: "sponsored", title: "Un nuevo horizonte para vivir", subtitle: "La Molina · 340 m² · 4 dorm.", image: "/images/la-molina-hero.png", price: "US$ 395,000", cta: "Descubrir", href: `/property/${properties[0].slug}`, badge: "PATROCINADO", sponsor: "Mariana Torres", placement: "city_premium", size: "hero" },
-  { id: "bb-2", variant: "district", classification: "trending", title: "Barranco se mueve", subtitle: "+5.1% interés este mes", image: "/images/property-5.jpg", cta: "Explorar distrito", href: "/district/barranco", badge: "EN TENDENCIA", placement: "city_premium", size: "tall" },
-  { id: "bb-3", variant: "property", classification: "algorithmic", title: "Espacios para empezar algo nuevo", subtitle: "Miraflores · 145 m²", image: "/images/property-2.jpg", price: "US$ 320,000", cta: "Ver propiedad", href: `/property/${properties[1].slug}`, placement: "feed_wide", size: "wide" },
-  { id: "bb-4", variant: "agent", classification: "editorial", title: "Conoce a Mariana", subtitle: "Ideas, recorridos y casas extraordinarias", image: "/images/property-4.jpg", cta: "Ver perfil", href: "/agent/marianainmuebles", placement: "city_premium", size: "small" },
-  { id: "bb-5", variant: "project", classification: "sponsored", title: "Alameda del Parque", subtitle: "Un proyecto para vivir cerca de todo", image: "/images/property-6.jpg", price: "Desde S/ 890,000", cta: "Conocer proyecto", href: `/property/${properties[16].slug}`, badge: "PATROCINADO", sponsor: "Alameda", placement: "city_premium", size: "wide" },
-  { id: "bb-6", variant: "trend", classification: "local", title: "Pachacámac para ti", subtitle: "8 oportunidades que merecen una mirada", image: "/images/property-7.jpg", cta: "Ver terrenos", href: "/explore?district=Pachacámac", placement: "city_premium", size: "small" }
+  { id: "bb-1", variant: "property", classification: "sponsored", title: "Un nuevo horizonte para vivir", subtitle: "La Molina · 340 m² · 4 dorm.", image: assetPath("/images/la-molina-hero.png"), price: "US$ 395,000", cta: "Descubrir", href: `/property/${properties[0].slug}`, badge: "PATROCINADO", sponsor: "Mariana Torres", placement: "city_premium", size: "hero" },
+  { id: "bb-2", variant: "district", classification: "trending", title: "Barranco se mueve", subtitle: "+5.1% interés este mes", image: assetPath("/images/property-5.jpg"), cta: "Explorar distrito", href: "/district/barranco", badge: "EN TENDENCIA", placement: "city_premium", size: "tall" },
+  { id: "bb-3", variant: "property", classification: "algorithmic", title: "Espacios para empezar algo nuevo", subtitle: "Miraflores · 145 m²", image: assetPath("/images/property-2.jpg"), price: "US$ 320,000", cta: "Ver propiedad", href: `/property/${properties[1].slug}`, placement: "feed_wide", size: "wide" },
+  { id: "bb-4", variant: "agent", classification: "editorial", title: "Conoce a Mariana", subtitle: "Ideas, recorridos y casas extraordinarias", image: assetPath("/images/property-4.jpg"), cta: "Ver perfil", href: "/agent/marianainmuebles", placement: "city_premium", size: "small" },
+  { id: "bb-5", variant: "project", classification: "sponsored", title: "Alameda del Parque", subtitle: "Un proyecto para vivir cerca de todo", image: assetPath("/images/property-6.jpg"), price: "Desde S/ 890,000", cta: "Conocer proyecto", href: `/property/${properties[16].slug}`, badge: "PATROCINADO", sponsor: "Alameda", placement: "city_premium", size: "wide" },
+  { id: "bb-6", variant: "trend", classification: "local", title: "Pachacámac para ti", subtitle: "8 oportunidades que merecen una mirada", image: assetPath("/images/property-7.jpg"), cta: "Ver terrenos", href: "/explore?district=Pachacámac", placement: "city_premium", size: "small" }
 ];
 export const campaigns: Campaign[] = [{ id: "camp-1", name: "Casa La Molina", ownerId: "mariana", createdAt: "2026-09-18", promotionIds: ["promo-1"] }];
 export const promotions: Promotion[] = [{ id: "promo-1", campaignId: "camp-1", contentId: "prop-01", contentType: "property", placement: "city_premium", cityScreenId: "A01", objective: "contacts", budget: 120, durationDays: 7, status: "active", analytics: { impressions: 24820, views: 7820, clicks: 1482, saves: 221, chats: 43, visits: 11, cost: 120 } }];

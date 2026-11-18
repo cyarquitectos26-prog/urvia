@@ -1,3 +1,4 @@
+import { assetPath } from "@/lib/paths";
 import { propertyHref } from "@/lib/property-link";
 import { agents, districts, posts, properties, videos } from "@/lib/data/mock";
 import { money, propertyMatch } from "@/lib/domain";
@@ -65,7 +66,7 @@ export const cityAdvertisingInventory: { product: CityAdProduct; screenIds: stri
 ];
 
 function propertyStory(property: Property, kicker = "DESCUBRE UN LUGAR"): CityStory {
-  return { id: `story-${property.id}`, type: property.type === "Proyecto" ? "project" : "property", classification: "algorithmic", kicker, title: property.title, subtitle: `${property.location.district} · ${property.area} m²`, image: property.id === "prop-01" ? "/images/la-molina-hero.webp" : property.media[0]?.url || "/images/la-molina-hero.webp", price: money(property.price, property.currency), href: propertyHref(property), propertyId: property.id, searchText: `${property.type} ${property.location.district} ${property.amenities.join(" ")}` };
+  return { id: `story-${property.id}`, type: property.type === "Proyecto" ? "project" : "property", classification: "algorithmic", kicker, title: property.title, subtitle: `${property.location.district} · ${property.area} m²`, image: property.id === "prop-01" ? assetPath("/images/la-molina-hero.webp") : property.media[0]?.url || assetPath("/images/la-molina-hero.webp"), price: money(property.price, property.currency), href: propertyHref(property), propertyId: property.id, searchText: `${property.type} ${property.location.district} ${property.amenities.join(" ")}` };
 }
 
 function seedStories(sorted: Property[]): CityStory[] {
@@ -73,8 +74,8 @@ function seedStories(sorted: Property[]): CityStory[] {
   const project = sorted.find(p => p.type === "Proyecto") || pick(2);
   const districtStory = (i: number): CityStory => { const d = districts[i]; return { id: `district-${d.id}`, type: "district", classification: "trending", kicker: "EN TENDENCIA", title: d.name, subtitle: `${d.inventory} propiedades · ↑ ${d.priceChange}% interés`, image: d.image, href: `/district/${d.slug}` }; };
   const agentStory = (i: number): CityStory => { const a = agents[i]; return { id: `agent-${a.id}`, type: "agent", classification: "editorial", kicker: "AGENTE DESTACADO", title: a.name, subtitle: `${new Intl.NumberFormat("es-PE").format(a.followers)} seguidores · ${a.specialties[0]}`, image: properties[i + 3].media[0].url, href: `/agent/${a.username}`, agentId: a.id }; };
-  const videoStory = (i: number): CityStory => { const v = videos[i]; const property = properties.find(p => p.id === v.propertyId); return { id: `video-${v.id}`, type: "video", classification: "editorial", kicker: "REEL · SIN AUDIO", title: v.title, subtitle: `${v.duration} · ${property?.location.district || "Lima"}`, image: i === 0 ? "/images/la-molina-hero.webp" : v.cover, href: "/videos", videoId: v.id, videoSrc: i === 0 ? "/videos/la-molina-loop.mp4" : "/videos/barranco-loop.mp4", propertyId: v.propertyId }; };
-  const editorialStory = (i: number): CityStory => { const p = posts[i]; return { id: `editorial-${p.id}`, type: "editorial", classification: "editorial", kicker: "IDEAS ORBE", title: p.body, subtitle: "Historias para vivir mejor", image: p.image || "/images/property-4.jpg", href: "/explore" }; };
+  const videoStory = (i: number): CityStory => { const v = videos[i]; const property = properties.find(p => p.id === v.propertyId); return { id: `video-${v.id}`, type: "video", classification: "editorial", kicker: "REEL · SIN AUDIO", title: v.title, subtitle: `${v.duration} · ${property?.location.district || "Lima"}`, image: i === 0 ? assetPath("/images/la-molina-hero.webp") : v.cover, href: "/videos", videoId: v.id, videoSrc: i === 0 ? assetPath("/videos/la-molina-loop.mp4") : assetPath("/videos/barranco-loop.mp4"), propertyId: v.propertyId }; };
+  const editorialStory = (i: number): CityStory => { const p = posts[i]; return { id: `editorial-${p.id}`, type: "editorial", classification: "editorial", kicker: "IDEAS URVIA", title: p.body, subtitle: "Historias para vivir mejor", image: p.image || assetPath("/images/property-4.jpg"), href: "/explore" }; };
   return [
     { ...propertyStory(pick(0), "CASA DEL DÍA"), classification: "sponsored" }, districtStory(0), agentStory(0),
     propertyStory(pick(1)), propertyStory(project, "NUEVO PROYECTO"), videoStory(0),

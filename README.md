@@ -1,18 +1,18 @@
-# ORBE — red social inmobiliaria para Perú
+# URVIA — red social inmobiliaria para Perú
 
-Web publicada: [ORBE](https://cyarquitectos26-prog.github.io/) · [Mapa](https://cyarquitectos26-prog.github.io/map/).
+Web: [URVIA](https://cyarquitectos26-prog.github.io/urvia/) · [Mapa](https://cyarquitectos26-prog.github.io/urvia/map/).
 
 Primera versión navegable de un marketplace de descubrimiento inmobiliario. El feed, los perfiles de agentes y City conectan propiedades con contenido social y pantallas digitales identificadas como patrocinadas cuando corresponde.
 
-## Actualización visual ORBE
+## Actualización visual URVIA
 
-La renovación aplica la identidad aprobada de ORBE y la composición de Axle: tres paneles laterales, navegación en píldoras, un fondo urbano de Lima y superficies de vidrio. El feed previo continúa debajo de la nueva vista inicial. Las rutas, formularios, controles de City, datos y persistencia existentes se conservan. Para ti enlaza a la sección de videos en `/videos`.
+La renovación aplica la identidad aprobada de URVIA y la composición de Axle: tres paneles laterales, navegación en píldoras, un fondo urbano de Lima y superficies de vidrio. El feed previo continúa debajo de la nueva vista inicial. Las rutas, formularios, controles de City, datos y persistencia existentes se conservan. Para ti enlaza a la sección de videos en `/videos`.
 
-El logo se trazó desde la imagen suministrada, sin cambiar su geometría. `public/brand/` contiene el original y las variantes SVG principal, horizontal, clara, oscura, monocroma e icono. Colores: azul petróleo `#193247`, champán `#C5A477`/`#D3A676`, marfil `#F7F5F2` y grafito `#101318`. Motion anima la entrada y el menú; se respeta la preferencia de movimiento reducido. El inicio usa video real de Lima; ORBE City conserva su escena 3D interactiva.
+El isotipo y la tipografía personalizada se vectorizaron desde el estudio gráfico original de URVIA, sin sustituir las letras por una fuente. `public/brand/` contiene el original y las variantes SVG principal, horizontal para espacios compactos, clara, oscura, monocroma e icono. Paleta: azul petróleo `#1E3A52`, champán `#D4B286`, gris cálido `#E9E7E2` y negro `#0F0F0F`. Motion anima la entrada y el menú; se respeta la preferencia de movimiento reducido. El inicio usa video real de Lima; URVIA City conserva su escena 3D interactiva.
 
 ### Video del inicio
 
-`public/videos/orbe-lima-background.mp4` reemplaza la imagen generada en el inicio. Contiene **cinco clips distintos** extraídos del archivo suministrado `YTDown.com_YouTube_Media_5Yd-y6FVkMg_Lima-Peru-in-4K-Incredible-Scenes-Hidden-Gems_001_1080p.mp4`:
+`public/videos/urvia-lima-background.mp4` reemplaza la imagen generada en el inicio. Contiene **cinco clips distintos** extraídos del archivo suministrado `YTDown.com_YouTube_Media_5Yd-y6FVkMg_Lima-Peru-in-4K-Incredible-Scenes-Hidden-Gems_001_1080p.mp4`:
 
 | Escena | Tramo del original |
 | --- | --- |
@@ -24,7 +24,7 @@ El logo se trazó desde la imagen suministrada, sin cambiar su geometría. `publ
 
 Cada toma dura 5,2 segundos antes de los solapamientos. Disolvencias de **0,8 segundos** unen todas las escenas y el cierre con el inicio del loop. Resultado: **22 segundos, 1920 × 1080, 25 fps, H.264, sin audio, 8,20 MB** (8.204.396 bytes). Se conserva la resolución original; la compresión usa CRF 25, límite de bitrate de 3 Mbps y MP4 con faststart. El montaje se entrega en un solo archivo para reproducir las transiciones con un único decodificador.
 
-El fotograma `public/images/orbe-lima-poster.webp` se muestra antes de la reproducción. Hay control de pausa/reproducción, una capa de contraste para los textos y pausa automática al salir del inicio de la pantalla o cambiar de pestaña. Con movimiento reducido, el fondo permanece fijo hasta que el usuario pulsa reproducir. No se carga el video completo original de 208 MB.
+El fotograma `public/images/urvia-lima-poster.webp` se muestra antes de la reproducción. Hay control de pausa/reproducción, una capa de contraste para los textos y pausa automática al salir del inicio de la pantalla o cambiar de pestaña. Con movimiento reducido, el fondo permanece fijo hasta que el usuario pulsa reproducir. No se carga el video completo original de 208 MB.
 
 El almacenamiento mantiene la clave heredada `urba-demo-v1` para conservar todas las publicaciones, colecciones y acciones previas en este navegador.
 
@@ -55,9 +55,11 @@ Abre [http://localhost:3000](http://localhost:3000). Para validar: `npm run type
 
 ## Exportar para GitHub Pages
 
-`npm run build:pages` genera la web estática en `out/`, con 65 páginas, imágenes sin un servidor de optimización, enlaces a directorios y `.nojekyll`. La exportación está preparada para el dominio raíz `https://cyarquitectos26-prog.github.io/`; `ORBE_PAGES_URL` permite ajustar los metadatos a otro dominio raíz. `npm run dev` conserva el modo de desarrollo habitual.
+`npm run build:pages` genera la web estática en `out/`, con 65 páginas, imágenes sin servidor de optimización, enlaces a directorios y `.nojekyll`. La exportación usa `basePath: /urvia` para `https://cyarquitectos26-prog.github.io/urvia/`. `lib/paths.ts` aplica ese prefijo a medios, iconos y texturas, incluyendo publicaciones guardadas con rutas anteriores. Next añade el prefijo a enlaces y navegación. `URVIA_PAGES_URL` permite ajustar los metadatos. `npm run dev` conserva el modo habitual en la raíz local.
 
-Para publicar, subir el contenido de `out/` al repositorio de la web y seleccionar su rama `main`, carpeta raíz, como fuente de GitHub Pages. El repositorio del código fuente y el de archivos compilados pueden mantenerse separados. No se exportan los datos almacenados en el navegador local.
+El repositorio `cyarquitectos26-prog/urvia` conserva el historial del código anterior. En Settings → Pages, la fuente es GitHub Actions. `.github/workflows/pages.yml` instala con `npm ci`, compila y publica exclusivamente `out/` al actualizar `main`. No se exportan los datos almacenados en el navegador. Las claves heredadas se conservan: el dominio de GitHub Pages sigue siendo el mismo y cambiar de subcarpeta no separa su localStorage.
+
+Los repositorios originales `orbe-proptech` y `cyarquitectos26-prog.github.io` se conservan. La publicación de Pages del segundo se desactiva tras comprobar URVIA. No hay redirección desde la dirección anterior.
 
 Las propiedades precargadas mantienen sus rutas. En la versión estática, las publicaciones creadas después del despliegue abren `/property/published/?slug=…`, una página que lee el estado local del navegador. Así se pueden abrir y recargar fichas nuevas sin necesitar un servidor. Los guardados, mensajes, visitas, campañas y publicaciones continúan siendo funciones demo almacenadas por navegador; no son un backend compartido.
 
@@ -101,7 +103,7 @@ El modelo espacial contiene zona, edificio, fachada, identificador, formato, vis
 
 Se revisaron las 19 páginas de la demo en escritorio y móvil, con comprobaciones adicionales a 885 y 320 píxeles. Los paneles del feed tienen márgenes interiores y títulos contenidos; las tarjetas distribuyen precio, agente y botones según su ancho. Los formularios de acceso mantienen espacio interior, la vista previa de publicación usa una columna en móvil y City separa el logo del buscador. Las páginas, el estado local y el fondo de cinco clips se conservan.
 
-El informe y las capturas de esta revisión están en `outputs/orbe-layout-audit/`. `design-qa.md` resume cobertura, comprobaciones y límites.
+El informe y las capturas de esta revisión están en `outputs/urvia-layout-audit/`. `design-qa.md` resume cobertura, comprobaciones y límites.
 
 ## Variables de entorno
 

@@ -1,4 +1,5 @@
 "use client";
+import { assetPath } from "@/lib/paths";
 /* Three.js scene objects are deliberately mutated by the render loop and texture loader. */
 /* eslint-disable react-hooks/immutability */
 
@@ -46,7 +47,7 @@ function drawCreative(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, 
   if (photo && (photo instanceof HTMLVideoElement ? photo.readyState >= 2 : photo.complete && photo.naturalWidth > 0)) fillImage(ctx, photo, w, h, story.type === "video" ? phase : 0);
   const shade = ctx.createLinearGradient(0, h * 0.25, 0, h); shade.addColorStop(0, "#06101900"); shade.addColorStop(0.55, "#07111aa6"); shade.addColorStop(1, "#040812f5");
   ctx.fillStyle = shade; ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = story.classification === "sponsored" ? "#ff7628" : "#d3a676";
+  ctx.fillStyle = story.classification === "sponsored" ? "#D4B286" : "#D4B286";
   ctx.fillRect(0, 0, 13, h);
   ctx.font = `700 ${Math.round(h * 0.04)}px Arial`; ctx.letterSpacing = "2px";
   ctx.fillText(story.kicker, w * 0.06, h * 0.105);
@@ -75,12 +76,12 @@ function CityBillboard({ screen, selected, lookedAt, cameraZ, quality, onSelect 
     const next = new THREE.CanvasTexture(canvas); next.colorSpace = THREE.SRGBColorSpace; next.anisotropy = quality === "high" ? 4 : 2;
     drawCreative(ctx, canvas, story, null); next.needsUpdate = true;
     const video = story.videoSrc ? document.createElement("video") : null;
-    if (video && story.videoSrc) { video.src = story.videoSrc; video.preload = "none"; video.muted = true; video.loop = true; video.playsInline = true; }
+    if (video && story.videoSrc) { video.src = assetPath(story.videoSrc); video.preload = "none"; video.muted = true; video.loop = true; video.playsInline = true; }
     animation.current = { ctx, canvas, photo: null, video, elapsed: 0 };
     queueMicrotask(() => { if (mounted) setTexture(next); });
     const photo = new Image(); photo.crossOrigin = "anonymous";
     photo.onload = () => { if (!mounted) return; drawCreative(ctx, canvas, story, photo); next.needsUpdate = true; if (animation.current) animation.current.photo = photo; };
-    photo.src = story.image;
+    photo.src = assetPath(story.image);
     return () => { mounted = false; video?.pause(); video?.removeAttribute("src"); next.dispose(); animation.current = null; };
   }, [placement.dimensions, quality, story]);
   useFrame((_, delta) => {
@@ -93,7 +94,7 @@ function CityBillboard({ screen, selected, lookedAt, cameraZ, quality, onSelect 
     if (item.elapsed > 0.11) { drawCreative(item.ctx, item.canvas, story, item.video?.readyState && item.video.readyState >= 2 ? item.video : item.photo, performance.now() / 1000); texture.needsUpdate = true; item.elapsed = 0; }
   });
   const [w, h] = placement.dimensions; const [x, y, z] = placement.position;
-  const glow = selected || lookedAt; const accent = story.classification === "sponsored" ? "#ff7628" : story.type === "video" ? "#d3a676" : "#c5a477";
+  const glow = selected || lookedAt; const accent = story.classification === "sponsored" ? "#D4B286" : story.type === "video" ? "#D4B286" : "#D4B286";
   return <group position={[x, y, z]} rotation={placement.rotation}>
     <mesh position={[0, 0, -0.05]}><boxGeometry args={[w + 0.31, h + 0.31, 0.27]} /><meshStandardMaterial color="#111b28" emissive={accent} emissiveIntensity={glow ? 0.6 : 0.18} metalness={0.6} roughness={0.28} /></mesh>
     <mesh position={[0, 0, 0.12]} onClick={e => { e.stopPropagation(); onSelect(placement.screenId); }} onPointerOver={e => { e.stopPropagation(); document.body.style.cursor = "pointer"; }} onPointerOut={() => { document.body.style.cursor = ""; }}>
@@ -137,7 +138,7 @@ function CityBuilding({ index, side, quality }: { index: number; side: -1 | 1; q
     sideWindowRef.current.instanceMatrix.needsUpdate = true;
     if (sideWindowRef.current.instanceColor) sideWindowRef.current.instanceColor.needsUpdate = true;
   }, [side, front, rows, index]);
-  const accent = index % 3 === 0 ? "#c5a477" : index % 3 === 1 ? "#d3a676" : "#677f9d";
+  const accent = index % 3 === 0 ? "#D4B286" : index % 3 === 1 ? "#D4B286" : "#677f9d";
   return <group>
     <mesh position={[x, height / 2, z]}><boxGeometry args={[11, height, 20]} /><meshStandardMaterial color={index % 2 ? "#213345" : "#253c4c"} metalness={0.18} roughness={0.7} /></mesh>
     <mesh position={[x, 2.1, front + 0.08]}><boxGeometry args={[10.4, 3.9, 0.12]} /><meshStandardMaterial color="#1e3b4a" emissive="#0d3a44" emissiveIntensity={0.34} metalness={0.7} roughness={0.2} /></mesh>
@@ -175,7 +176,7 @@ function CitySkyline() {
   useEffect(() => {
     let live = true; let current: THREE.Texture | null = null;
     const loader = new THREE.TextureLoader();
-    loader.load("/images/city-skyline.webp", loaded => { if (!live) { loaded.dispose(); return; } loaded.colorSpace = THREE.SRGBColorSpace; current = loaded; setTexture(loaded); });
+    loader.load(assetPath("/images/city-skyline.webp"), loaded => { if (!live) { loaded.dispose(); return; } loaded.colorSpace = THREE.SRGBColorSpace; current = loaded; setTexture(loaded); });
     return () => { live = false; current?.dispose(); };
   }, []);
   if (!texture) return null;
@@ -192,9 +193,9 @@ function CityEnvironment({ quality }: { quality: Exclude<CityQuality, "auto"> })
     {[-1, 1].flatMap(side => [[4, 30], [-80, -4], [-164, -88], [-194, -172]].map(([start, end]) => <group key={`${side}-${start}`}><mesh position={[side * 8.55, 0.16, (start + end) / 2]}><boxGeometry args={[4.1, 0.28, end - start]} /><meshStandardMaterial color="#303943" metalness={0.12} roughness={0.72} /></mesh><mesh position={[side * 6.55, 0.08, (start + end) / 2]}><boxGeometry args={[0.1, 0.12, end - start]} /><meshBasicMaterial color="#e5a578" /></mesh><mesh position={[side * 7.4, 0.31, (start + end) / 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.25, end - start]} /><meshBasicMaterial color="#ff9d57" transparent opacity={0.18} /></mesh></group>))}
     {Array.from({ length: 22 }, (_, i) => <mesh key={i} position={[i % 2 ? 0.25 : -0.25, -0.034, 22 - i * 10]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.1, 3.5]} /><meshBasicMaterial color="#d2bf92" transparent opacity={0.62} /></mesh>)}
     {[0, -84, -168].map(z => <group key={z}>{Array.from({ length: 7 }, (_, i) => <mesh key={i} position={[0, -0.025, z + i * 1.1 - 3]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[13, 0.54]} /><meshBasicMaterial color="#d5d6c8" transparent opacity={0.63} /></mesh>)}</group>)}
-    {Array.from({ length: 7 }, (_, i) => ([-1, 1] as const).map(side => <group key={`reflection-${side}-${i}`}><mesh position={[side * 5.2, -0.029, -i * 28 + 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[1.9, 8]} /><meshBasicMaterial color={i % 2 ? "#b7c5ce" : "#d3a676"} transparent opacity={0.115} depthWrite={false} /></mesh><mesh position={[side * 4.4, -0.028, -i * 28 - 3]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.45, 4.2]} /><meshBasicMaterial color="#d2dcde" transparent opacity={0.11} depthWrite={false} /></mesh></group>))}
+    {Array.from({ length: 7 }, (_, i) => ([-1, 1] as const).map(side => <group key={`reflection-${side}-${i}`}><mesh position={[side * 5.2, -0.029, -i * 28 + 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[1.9, 8]} /><meshBasicMaterial color={i % 2 ? "#b7c5ce" : "#D4B286"} transparent opacity={0.115} depthWrite={false} /></mesh><mesh position={[side * 4.4, -0.028, -i * 28 - 3]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.45, 4.2]} /><meshBasicMaterial color="#d2dcde" transparent opacity={0.11} depthWrite={false} /></mesh></group>))}
     {Array.from({ length: 7 }, (_, i) => <group key={i}><CityBuilding index={i} side={-1} quality={quality} /><CityBuilding index={i} side={1} quality={quality} /></group>)}
-    <group position={[0, 0, -13]}><mesh position={[-7.1, 6.3, 0]}><boxGeometry args={[0.14, 12.6, 0.28]} /><meshStandardMaterial color="#4c6975" metalness={0.72} roughness={0.25} /></mesh><mesh position={[7.1, 6.3, 0]}><boxGeometry args={[0.14, 12.6, 0.28]} /><meshStandardMaterial color="#4c6975" metalness={0.72} roughness={0.25} /></mesh><mesh position={[0, 12.6, 0]}><boxGeometry args={[14.2, 0.15, 0.28]} /><meshBasicMaterial color="#d3a676" /></mesh></group>
+    <group position={[0, 0, -13]}><mesh position={[-7.1, 6.3, 0]}><boxGeometry args={[0.14, 12.6, 0.28]} /><meshStandardMaterial color="#4c6975" metalness={0.72} roughness={0.25} /></mesh><mesh position={[7.1, 6.3, 0]}><boxGeometry args={[0.14, 12.6, 0.28]} /><meshStandardMaterial color="#4c6975" metalness={0.72} roughness={0.25} /></mesh><mesh position={[0, 12.6, 0]}><boxGeometry args={[14.2, 0.15, 0.28]} /><meshBasicMaterial color="#D4B286" /></mesh></group>
     <CitySkyline />
     <StreetLights quality={quality} /><CityTraffic quality={quality} />
   </>;
